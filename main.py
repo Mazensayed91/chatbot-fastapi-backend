@@ -3,6 +3,8 @@ from fastapi import Depends, FastAPI, HTTPException, status,File, UploadFile
 from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from starlette.middleware.cors import CORSMiddleware
+
 import crud, models, schemas
 from database import SessionLocal, engine
 from jose import JWTError, jwt
@@ -11,6 +13,15 @@ from datetime import datetime, timedelta
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
+
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 # Dependency
