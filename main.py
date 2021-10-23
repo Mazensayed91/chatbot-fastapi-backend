@@ -37,7 +37,7 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 
-async def get_current_user(db: Session = Depends(get_db),token: str = Depends(oauth2_scheme)):
+async def get_current_user(db: Session = Depends(get_db), token: str = Depends(oauth2_scheme)):
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
@@ -82,6 +82,7 @@ async def read_users_me(current_user: models.User = Depends(get_current_user)):
 def create_user(
     user: schemas.UserCreate, db: Session = Depends(get_db)
 ):
-    return crud.create_user(db=db, user=user)
+    crud.create_user(db=db, user=user)
+    return {"result": "user created!"}
 
 
